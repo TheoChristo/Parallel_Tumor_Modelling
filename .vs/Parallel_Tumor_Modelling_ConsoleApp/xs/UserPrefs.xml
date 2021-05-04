@@ -1,0 +1,52 @@
+﻿<Properties StartupConfiguration="{446ABCEE-877D-44FE-9BA6-6BE58B05546D}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Parallel_Tumor_Modelling_ConsoleApp/TumorModelling.cs">
+    <Files>
+      <File FileName="Parallel_Tumor_Modelling_ConsoleApp/Program.cs" Line="22" Column="1" />
+      <File FileName="Parallel_Tumor_Modelling_ConsoleApp/TumorModelling.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Parallel_Tumor_Modelling_ConsoleApp" expanded="True">
+            <Node name="Parallel_Tumor_Modelling_ConsoleApp" expanded="True" selected="True">
+              <Node name="lib" expanded="True">
+                <Node name="ISAAR.MSolve.Analyzers" expanded="True">
+                  <Node name="Dynamic" expanded="True" />
+                  <Node name="Interfaces" expanded="True" />
+                </Node>
+                <Node name="ISAAR.MSolve.Discretization" expanded="True">
+                  <Node name="obj" expanded="True">
+                    <Node name="Debug" expanded="True">
+                      <Node name="netstandard2.0" expanded="True" />
+                    </Node>
+                  </Node>
+                </Node>
+                <Node name="ISAAR.MSolve.FEM" expanded="True">
+                  <Node name="obj" expanded="True">
+                    <Node name="Debug" expanded="True">
+                      <Node name="netstandard2.0" expanded="True" />
+                    </Node>
+                  </Node>
+                </Node>
+                <Node name="ISAAR.MSolve.LinearAlgebra" expanded="True">
+                  <Node name="obj" expanded="True">
+                    <Node name="Debug" expanded="True">
+                      <Node name="netstandard2.0" expanded="True" />
+                    </Node>
+                  </Node>
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Parallel__Tumor__Modelling__ConsoleApp PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

@@ -1,0 +1,85 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/theo/Desktop/PhD/_Projects/Parallel_Tumor_Modelling/Parallel_Tumor_ModellingConsoleApp/Parallel_Tumor_ModellingConsoleApp/Parallel_Tumor_ModellingConsoleApp.csproj": {}
+  },
+  "projects": {
+    "/Users/theo/Desktop/PhD/_Projects/Parallel_Tumor_Modelling/Parallel_Tumor_ModellingConsoleApp/Parallel_Tumor_ModellingConsoleApp/Parallel_Tumor_ModellingConsoleApp.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/theo/Desktop/PhD/_Projects/Parallel_Tumor_Modelling/Parallel_Tumor_ModellingConsoleApp/Parallel_Tumor_ModellingConsoleApp/Parallel_Tumor_ModellingConsoleApp.csproj",
+        "projectName": "Parallel_Tumor_ModellingConsoleApp",
+        "projectPath": "/Users/theo/Desktop/PhD/_Projects/Parallel_Tumor_Modelling/Parallel_Tumor_ModellingConsoleApp/Parallel_Tumor_ModellingConsoleApp/Parallel_Tumor_ModellingConsoleApp.csproj",
+        "packagesPath": "/Users/theo/.nuget/packages/",
+        "outputPath": "/Users/theo/Desktop/PhD/_Projects/Parallel_Tumor_Modelling/Parallel_Tumor_ModellingConsoleApp/Parallel_Tumor_ModellingConsoleApp/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/Users/theo/.config/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "Accord.Math": {
+              "target": "Package",
+              "version": "[3.8.0, )"
+            },
+            "CSparse": {
+              "target": "Package",
+              "version": "[3.2.3, )"
+            },
+            "Compute.Bindings.IntelMKL": {
+              "target": "Package",
+              "version": "[0.1.5, )"
+            },
+            "DotNumerics": {
+              "target": "Package",
+              "version": "[1.1.0, )"
+            },
+            "NETStandard.Library": {
+              "target": "Package",
+              "version": "[2.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.102/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+﻿<Properties StartupConfiguration="{C0FFF3CD-A7C8-4223-8DE6-309A4770489A}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MSolveLib/ISAAR.MSolve.FEM/Elements/Quad4NL.cs">
+    <Files>
+      <File FileName="TumorModelling.cs" Line="34" Column="46" />
+      <File FileName="MSolveLib/ISAAR.MSolve.Logging/Properties/AssemblyInfo.cs" />
+      <File FileName="MSolveLib/ISAAR.MSolve.Analyzers/Properties/AssemblyInfo.cs" Line="36" Column="45" />
+      <File FileName="MSolveLib/ISAAR.MSolve.FEM/Elements/Quad4NL.cs" Line="13" Column="20" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Parallel_Tumor_ModellingConsoleApp" expanded="True">
+            <Node name="Parallel_Tumor_ModellingConsoleApp" expanded="True">
+              <Node name="MSolveLib" expanded="True">
+                <Node name="ISAAR.MSolve.FEM" expanded="True">
+                  <Node name="Elements" expanded="True">
+                    <Node name="Quad4NL.cs" selected="True" />
+                  </Node>
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.Parallel__Tumor__ModellingConsoleApp PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

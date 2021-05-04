@@ -1,0 +1,51 @@
+{
+  "version": 2,
+  "dgSpecHash": "OwPwklD2vFqN0lIgii3FCvXuDe61W9xUq8WhI1Yqt4St7PGM6tQ6eY9uL2FKMxRtzXQxm8ZzOUAVZQCIL5AZdg==",
+  "success": true,
+  "projectFilePath": "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.Analyzers/ISAAR.MSolve.Analyzers.csproj",
+  "expectedPackageFiles": [
+    "/Users/theo/.nuget/packages/compute.bindings.intelmkl/0.1.5/compute.bindings.intelmkl.0.1.5.nupkg.sha512",
+    "/Users/theo/.nuget/packages/csparse/3.2.3/csparse.3.2.3.nupkg.sha512",
+    "/Users/theo/.nuget/packages/dotnumerics/1.1.0/dotnumerics.1.1.0.nupkg.sha512",
+    "/Users/theo/.nuget/packages/microsoft.csharp/4.4.0/microsoft.csharp.4.4.0.nupkg.sha512",
+    "/Users/theo/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "/Users/theo/.nuget/packages/microsoft.netcore.targets/1.1.0/microsoft.netcore.targets.1.1.0.nupkg.sha512",
+    "/Users/theo/.nuget/packages/netstandard.library/2.0.3/netstandard.library.2.0.3.nupkg.sha512",
+    "/Users/theo/.nuget/packages/system.componentmodel.annotations/4.4.0/system.componentmodel.annotations.4.4.0.nupkg.sha512",
+    "/Users/theo/.nuget/packages/system.io/4.3.0/system.io.4.3.0.nupkg.sha512",
+    "/Users/theo/.nuget/packages/system.reflection/4.3.0/system.reflection.4.3.0.nupkg.sha512",
+    "/Users/theo/.nuget/packages/system.reflection.emit/4.3.0/system.reflection.emit.4.3.0.nupkg.sha512",
+    "/Users/theo/.nuget/packages/system.reflection.emit.ilgeneration/4.3.0/system.reflection.emit.ilgeneration.4.3.0.nupkg.sha512",
+    "/Users/theo/.nuget/packages/system.reflection.emit.lightweight/4.3.0/system.reflection.emit.lightweight.4.3.0.nupkg.sha512",
+    "/Users/theo/.nuget/packages/system.reflection.primitives/4.3.0/system.reflection.primitives.4.3.0.nupkg.sha512",
+    "/Users/theo/.nuget/packages/system.runtime/4.3.0/system.runtime.4.3.0.nupkg.sha512",
+    "/Users/theo/.nuget/packages/system.runtime.compilerservices.unsafe/4.4.0/system.runtime.compilerservices.unsafe.4.4.0.nupkg.sha512",
+    "/Users/theo/.nuget/packages/system.text.encoding/4.3.0/system.text.encoding.4.3.0.nupkg.sha512",
+    "/Users/theo/.nuget/packages/system.threading.tasks/4.3.0/system.threading.tasks.4.3.0.nupkg.sha512",
+    "/Users/theo/.nuget/packages/thrower/4.3.1/thrower.4.3.1.nupkg.sha512",
+    "/Users/theo/.nuget/packages/triangle/0.0.6-beta3/triangle.0.0.6-beta3.nupkg.sha512",
+    "/Users/theo/.nuget/packages/troschuetz.random/4.3.0/troschuetz.random.4.3.0.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'CSparse 3.2.3' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
+      "libraryId": "CSparse",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'DotNumerics 1.1.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETStandard,Version=v2.0'. This package may not be fully compatible with your project.",
+      "libraryId": "DotNumerics",
+      "targetGraphs": [
+        ".NETStandard,Version=v2.0"
+      ]
+    }
+  ]
+}
