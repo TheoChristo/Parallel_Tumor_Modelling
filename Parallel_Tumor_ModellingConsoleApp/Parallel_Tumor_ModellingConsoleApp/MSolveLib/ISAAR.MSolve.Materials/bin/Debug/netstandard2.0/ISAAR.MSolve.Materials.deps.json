@@ -1,0 +1,126 @@
+{
+  "runtimeTarget": {
+    "name": ".NETStandard,Version=v2.0/",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETStandard,Version=v2.0": {},
+    ".NETStandard,Version=v2.0/": {
+      "ISAAR.MSolve.Materials/1.0.0": {
+        "dependencies": {
+          "ISAAR.MSolve.LinearAlgebra": "1.0.0",
+          "NETStandard.Library": "2.0.3"
+        },
+        "runtime": {
+          "ISAAR.MSolve.Materials.dll": {}
+        }
+      },
+      "Compute.Bindings.IntelMKL/0.1.5": {
+        "dependencies": {
+          "System.Runtime.CompilerServices.Unsafe": "4.4.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Compute.Bindings.IntelMKL.dll": {
+            "assemblyVersion": "0.1.5.0",
+            "fileVersion": "0.1.5.0"
+          }
+        }
+      },
+      "CSparse/3.2.3": {
+        "runtime": {
+          "lib/net40/CSparse.dll": {
+            "assemblyVersion": "3.2.3.19889",
+            "fileVersion": "3.2.3.0"
+          }
+        }
+      },
+      "DotNumerics/1.1.0": {
+        "runtime": {
+          "lib/DotNumerics.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Microsoft.NETCore.Platforms/1.1.0": {},
+      "NETStandard.Library/2.0.3": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0"
+        }
+      },
+      "System.Runtime.CompilerServices.Unsafe/4.4.0": {
+        "runtime": {
+          "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll": {
+            "assemblyVersion": "4.0.3.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "ISAAR.MSolve.LinearAlgebra/1.0.0": {
+        "dependencies": {
+          "CSparse": "3.2.3",
+          "Compute.Bindings.IntelMKL": "0.1.5",
+          "DotNumerics": "1.1.0"
+        },
+        "runtime": {
+          "ISAAR.MSolve.LinearAlgebra.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ISAAR.MSolve.Materials/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Compute.Bindings.IntelMKL/0.1.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-nQyd9nALNyZjZbw3zzQY2npf67tGbbmhmQ1bsL7sX3/JL3ALr47w+KxexV22UK65vg1WppOv2OHWIvbCMxO5pw==",
+      "path": "compute.bindings.intelmkl/0.1.5",
+      "hashPath": "compute.bindings.intelmkl.0.1.5.nupkg.sha512"
+    },
+    "CSparse/3.2.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yQ20bbmRK12TUFXftvsyTPTa+eKRfNWd+pUzoESs8IVSm1qvJ7SpIgvowA/7bnZM0DhzvSd4ikdaGBsQIky5WQ==",
+      "path": "csparse/3.2.3",
+      "hashPath": "csparse.3.2.3.nupkg.sha512"
+    },
+    "DotNumerics/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uXB06Y7IP6AnoOK9/Cfyfmx5xxBxMfnqSHYcdxgT35+zUUqUEth9vyGy2EPj9HevGaDZFz76WngFXcMCBDvmUg==",
+      "path": "dotnumerics/1.1.0",
+      "hashPath": "dotnumerics.1.1.0.nupkg.sha512"
+    },
+    "Microsoft.NETCore.Platforms/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
+      "path": "microsoft.netcore.platforms/1.1.0",
+      "hashPath": "microsoft.netcore.platforms.1.1.0.nupkg.sha512"
+    },
+    "NETStandard.Library/2.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
+      "path": "netstandard.library/2.0.3",
+      "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
+    },
+    "System.Runtime.CompilerServices.Unsafe/4.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9dLLuBxr5GNmOfl2jSMcsHuteEg32BEfUotmmUkmZjpR3RpVHE8YQwt0ow3p6prwA1ME8WqDVZqrr8z6H8G+Kw==",
+      "path": "system.runtime.compilerservices.unsafe/4.4.0",
+      "hashPath": "system.runtime.compilerservices.unsafe.4.4.0.nupkg.sha512"
+    },
+    "ISAAR.MSolve.LinearAlgebra/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

@@ -1,0 +1,36 @@
+﻿<Properties StartupConfiguration="{95353695-BA51-49A6-8769-BDC24BDB085A}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Parallel_Tumor_ModellingConsoleApp/TumorModelling.cs">
+    <Files>
+      <File FileName="Parallel_Tumor_ModellingConsoleApp/Program.cs" Line="22" Column="1" />
+      <File FileName="Parallel_Tumor_ModellingConsoleApp/MSolveLib/ISAAR.MSolve.FEM/Readers/ComsolMeshReader5.cs" Line="156" Column="1" />
+      <File FileName="Parallel_Tumor_ModellingConsoleApp/MSolveLib/ISAAR.MSolve.LinearAlgebra/Output/Utilities.cs" Line="37" Column="1" />
+      <File FileName="Parallel_Tumor_ModellingConsoleApp/TumorModelling.cs" Line="164" Column="10" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Parallel_Tumor_ModellingConsoleApp" expanded="True">
+            <Node name="Parallel_Tumor_ModellingConsoleApp" expanded="True">
+              <Node name="MSolveLib" expanded="True">
+                <Node name="ISAAR.MSolve.FEM" expanded="True">
+                  <Node name="Readers" expanded="True" />
+                </Node>
+                <Node name="ISAAR.MSolve.LinearAlgebra" expanded="True">
+                  <Node name="Output" expanded="True" />
+                </Node>
+              </Node>
+              <Node name="TumorModelling.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.Parallel__Tumor__ModellingConsoleApp PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
