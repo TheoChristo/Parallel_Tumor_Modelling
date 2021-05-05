@@ -1,0 +1,5 @@
+﻿khy = 6.5e-11
+muLame = 6e4
+Svin = 7000
+lp = 2.7e-12
+Dcell = 5.4e-3

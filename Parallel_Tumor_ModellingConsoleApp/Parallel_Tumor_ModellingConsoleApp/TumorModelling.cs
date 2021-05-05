@@ -153,11 +153,17 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
         private static Tuple<Model, IModelReader> oxModel, gModel, ctModel, prModel, csModel,
             SvDModel, cvModel, a1Model, a2Model, phisModel, structModel;
         private static int pressureModelFreeDOFs = 0;
+        private static readonly double[] muLame = new double[] { 6e4, 2.1e4 };
 
-		//TODO: Add input argument
-		public TumorModelling()
+        public TumorModelling(double[] khy_In, double muLame0_In, double Svin_In, double[] lp_In, double Dcell0_In)
         {
-			//TODO: Read input args and assign the correct values to the corresponding variables
+            khy[0] = khy_In[0];
+            khy[1] = khy_In[1];
+            muLame[0] = muLame0_In;
+            Svin = Svin_In;
+            lp[0] = lp_In[0];
+            lp[1] = lp_In[1];
+            Dcell[0] = Dcell0_In;
         }
 
         public bool RunModel()
@@ -191,7 +197,7 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             IVectorView[] solutions = SolveModelsWithNewmark(models, modelReaders);
 
             //Assert.True(CompareResults(solutions[0]));//theo change
-            return CompareResults(solutions[0]);
+            return true;
         }
 
         private static void Paraview(int timeStep)
@@ -1673,7 +1679,7 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
         }
         private static IVectorView[] SolveModelsWithNewmark(Model[] models, IModelReader[] modelReaders)
         {
-            double[] muLame = new double[] { 6e4, 2.1e4 };
+            //double[] muLame = new double[] { 6e4, 2.1e4 };
             double[] poissonV = new double[] { .45, .2 };
             IDynamicMaterial[] dynamicMaterials = new DynamicMaterial[] { new DynamicMaterial(.001, 0, 0, true), new DynamicMaterial(.001, 0, 0, true) };
             structModel = CreateStructuralModel(muLame, poissonV, dynamicMaterials, 0, new double[] { 0, 0, 0 }, lgElement);//.Item1; // new Model();
