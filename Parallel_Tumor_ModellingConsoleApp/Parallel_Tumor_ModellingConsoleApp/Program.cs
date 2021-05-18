@@ -14,15 +14,16 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
         static void Main(string[] args)
         {            
             ParseFile(args[0]);
+
             Console.WriteLine("Creating Tumor Model...");
             Console.WriteLine("khy={" + khy[0] + "," + khy[1] + "} | muLame[0]=" + muLame + " | Svin=" + Svin + " | " + "lp={" + lp[0] + "," + lp[1] + "} | Dcell[0]=" + Dcell);
             var TumorModel = new TumorModelling(khy, muLame, Svin, lp, Dcell);
+            
             Console.WriteLine("Running Tumor Model...");
-
             TumorModel.RunModel();
 
             StreamWriter sw = File.CreateText("completed.txt");
-            sw.Write("Completed");
+            //sw.Write("Completed");
         }
 
         static void ParseFile(string filename)
