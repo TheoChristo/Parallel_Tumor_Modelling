@@ -1,26 +1,38 @@
 ﻿using System;
+using System.IO;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ProcessWrapper
 {
     class Program
     {
-        
-        private static Tuple<String, int[]>[] procDic =
-        { //procDic(exeLocation, processorsToUse)
-            new Tuple<string, int[]>(@"C:\Users\cluster\Desktop\t\testRun1\", new int[] {1, 2}),
-            new Tuple<string, int[]>(@"C:\Users\cluster\Desktop\t\testRun2\", new int[] {3, 4})
-        };
-        
+        private static readonly List<int[]> processorList = new List<int[]>(new[]
+        {
+            //new int[] { 1, 2 },
+            new int[] { 3, 4 }//,
+            //new int[] { 5, 6 }
+        });
+        private static Queue<String> processQ = new Queue<string>(new[] {
+            @"C:\Users\cluster\Desktop\t\testRun1\",
+            @"C:\Users\cluster\Desktop\t\testRun2\"
+        }); 
+        private static List<Tuple<String, int[]>> runningProcesses;
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello from ProcessWrapper!");
+            Console.WriteLine("Hello from Process Scheduler!");
 
-            StartProcess(procDic[0].Item1, procDic[0].Item2);
-
-            StartProcess(procDic[1].Item1, procDic[1].Item2);
-
+            runningProcesses = new List<Tuple<string, int[]>>();
+            //Start a process to each available proc
+            foreach (var item in processorList)
+            {
+                runningProcesses.Add(new Tuple<string, int[]>(processQ.Dequeue(), item));
+                StartProcess(runningProcesses[runningProcesses.Count-1].Item1,
+                            runningProcesses[runningProcesses.Count - 1].Item2);
+            }
+            StartCrawler();
             Console.WriteLine("Exiting programm..");
         }
 
@@ -47,6 +59,33 @@ namespace ProcessWrapper
             //process.WaitForExit();
         }
 
+        public async static void StartCrawler()
+        {
+            Console.WriteLine("======Starting crawling");
+            while(processQ.Count>0)
+            {
+                await Task.Delay(1);
+                Console.WriteLine("=====Crawling..");
+                foreach(var proc in runningProcesses)
+                {
+                    if (File.Exists(proc.Item1+"completed.txt"))
+                    {
+                        Console.WriteLine("=====Found completion file in "+proc.Item1);
+                        Console.ReadLine();
+                        runningProcesses.Add(new Tuple<string, int[]>(processQ.Dequeue(), proc.Item2));
+                        runningProcesses.Remove(proc);
+                        StartProcess(runningProcesses[runningProcesses.Count - 1].Item1,
+                                    runningProcesses[runningProcesses.Count - 1].Item2);
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("No process has finished");
+                    }
+                }
+
+            }
+        }
      
     }
 }
