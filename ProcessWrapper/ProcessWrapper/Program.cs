@@ -12,11 +12,23 @@ namespace ProcessWrapper
         {
             //new int[] { 1, 2 },
             //new int[] { 3, 4 },
-            new int[] { 5, 6 }
+            //new int[] { 5, 6 },
+            //new int[] { 7, 8 },
+            //new int[] { 9, 10 },
+            new int[] { 11, 12 }
         });
         private static Queue<String> processQ = new Queue<string>(new[] {
-            @"C:\Users\cluster\Desktop\t\testRun1\",
-            @"C:\Users\cluster\Desktop\t\testRun2\"
+            @"C:\Users\cluster\Desktop\t\testRuns\testRun1\",
+            @"C:\Users\cluster\Desktop\t\testRuns\testRun2\",
+            @"C:\Users\cluster\Desktop\t\testRuns\testRun3\",
+            @"C:\Users\cluster\Desktop\t\testRuns\testRun4\",
+            @"C:\Users\cluster\Desktop\t\testRuns\testRun5\",
+            @"C:\Users\cluster\Desktop\t\testRuns\testRun6\",
+            @"C:\Users\cluster\Desktop\t\testRuns\testRun7\",
+            @"C:\Users\cluster\Desktop\t\testRuns\testRun8\",
+            @"C:\Users\cluster\Desktop\t\testRuns\testRun9\",
+            @"C:\Users\cluster\Desktop\t\testRuns\testRun10\"
+
         }); 
         private static List<Tuple<String, int[]>> runningProcesses;
 
