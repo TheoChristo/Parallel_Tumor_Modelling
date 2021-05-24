@@ -1,4 +1,5 @@
-﻿using ISAAR.MSolve.Analyzers;
+﻿using System;
+using ISAAR.MSolve.Analyzers;
 using ISAAR.MSolve.Analyzers.Dynamic;
 using ISAAR.MSolve.Discretization;
 using ISAAR.MSolve.Discretization.Commons;
@@ -21,7 +22,6 @@ using ISAAR.MSolve.FEM.Loading.SurfaceLoads;
 using static ISAAR.MSolve.FEM.Loading.SurfaceLoads.WeakDirichlet;
 using ISAAR.MSolve.FEM.Loading;
 using ISAAR.MSolve.FEM.Elements.BoundaryConditionElements;
-using System;
 using ISAAR.MSolve.Materials.Interfaces;
 using ISAAR.MSolve.Analyzers.NonLinear;
 using ISSAR.MSolve.Discretization.Loads;
@@ -76,10 +76,8 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
         private static double b2 = 18240d / 3600d; //1/s
         private static double[][] conv0 = new double[][] { new double[] { 0, 0, 0 }, new double[] { 0, 0, 0 } };
         //private static double fox = -((Aox * c_ox) / (kox + c_ox * cvox)) * 0.3;
-        //private static SuiteSparseSolver.Builder builder = new SuiteSparseSolver.Builder();
         private static SkylineSolver.Builder builder = new SkylineSolver.Builder();
-        private static CSparseLUSolver.Builder asymBuilder = new CSparseLUSolver.Builder();
-        //private static SuiteSparseSolver.Builder structuralBuilder = new SuiteSparseSolver.Builder();
+        private static DenseMatrixSolver.Builder asymBuilder = new DenseMatrixSolver.Builder();
         private static SkylineSolver.Builder structuralBuilder = new SkylineSolver.Builder();
         private static double[] lgNode;
         private static double[] lgElement;
@@ -894,7 +892,7 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             {
                 if (i == 0 || i == 1 || i == 2)
                 {
-                    //asymBuilder.IsMatrixPositiveDefinite = false;
+                    asymBuilder.IsMatrixPositiveDefinite = false;
                     solversToReplace[i] = asymBuilder.BuildSolver(modelsToReplace[i]);
                 }
                 else
@@ -998,7 +996,7 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             if (SvDModel == null)
             {
                 Console.WriteLine("Creating SvD Model");
-                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
+                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh446elem.mphtxt");
                 int[] modelDomains = new int[] { 0, 1 };
                 int[] modelBoundaries = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                 modelReader = new ComsolMeshReader5(filename, new double[] { 1, 1 }, SvDCoefficientsCalculation);
@@ -1056,7 +1054,7 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             if (oxModel == null)
             {
                 Console.WriteLine("Creating Oxygen Model");
-                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
+                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh446elem.mphtxt");
                 int[] modelDomains = new int[] { 0, 1 };
                 int[] modelBoundaries = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                 modelReader = new ComsolMeshReader4(filename, new double[] { 1, 1 }, k, OxygenTransportCoefficientsCalculation);
@@ -1119,7 +1117,7 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             if (gModel == null)
             {
                 Console.WriteLine("Creating Growth Model");
-                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
+                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh446elem.mphtxt");
                 int[] modelDomains = new int[] { 0 };
                 int[] modelBoundaries = new int[] { 0, 1, 2, 5 };
                 modelReader = new ComsolMeshReader3(filename, new double[] { 1 }, new double[] { 0 }, conv0, new double[] { 0 });
@@ -1167,7 +1165,7 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             if (ctModel == null)
             {
                 Console.WriteLine("Creating Cancer Transport Model");
-                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
+                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh446elem.mphtxt");
                 int[] modelDomains = new int[] { 0 };
                 int[] modelBoundaries = new int[] { 0, 1, 2, 5 };
                 modelReader = new ComsolMeshReader4(filename, new double[] { 1 }, new double[] { k }, TumorCellsCoefficientsCalculation);
@@ -1206,7 +1204,7 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             if (prModel == null)
             {
                 Console.WriteLine("Creating Pressure Model");
-                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
+                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh446elem.mphtxt");
                 int[] modelDomains = new int[] { 0, 1 };
                 int[] modelBoundaries = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                 modelReader = new ComsolMeshReader4(filename, new double[] { 1, 1 },
@@ -1316,7 +1314,7 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             if (csModel == null)
             {
                 Console.WriteLine("Creating Cs Model");
-                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
+                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh446elem.mphtxt");
                 int[] modelDomains = new int[] { 0, 1 };
                 int[] modelBoundaries = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                 modelReader = new ComsolMeshReader3(filename, new double[] { 1, 1 }, new double[] { 0, 0 }, conv0, new double[] { l13 * 24 * 3600, 0 });
@@ -1361,7 +1359,7 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             if (cvModel == null)
             {
                 Console.WriteLine("Creating Cv Model");
-                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
+                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh446elem.mphtxt");
                 int[] modelDomains = new int[] { 0, 1 };
                 int[] modelBoundaries = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                 modelReader = new ComsolMeshReader5(filename, new double[] { 1, 1 }, CvCoefficientsCalculation);
@@ -1404,7 +1402,7 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             if (a1Model == null)
             {
                 Console.WriteLine("Creating Ang1 Model");
-                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
+                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh446elem.mphtxt");
                 int[] modelDomains = new int[] { 0, 1 };
                 int[] modelBoundaries = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                 modelReader = new ComsolMeshReader3(filename, new double[] { 1, 1 }, new double[] { 0, 0 },
@@ -1456,7 +1454,7 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             if (a2Model == null)
             {
                 Console.WriteLine("Creating Ang2 Model");
-                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
+                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh446elem.mphtxt");
                 int[] modelDomains = new int[] { 0, 1 };
                 int[] modelBoundaries = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                 modelReader = new ComsolMeshReader3(filename, new double[] { 1, 1 }, new double[] { 0, 0 },
@@ -1508,7 +1506,7 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             if (phisModel == null)
             {
                 Console.WriteLine("Creating phis Model");
-                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
+                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh446elem.mphtxt");
                 int[] modelDomains = new int[] { 0 };
                 int[] modelBoundaries = new int[] { 0, 1, 2, 5 };
                 modelReader = new ComsolMeshReader4(filename, new double[] { 1 }, new double[] { 0 }, phisCoefficientsCalculation);
@@ -1571,7 +1569,7 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
                 C2[i] = 0;
                 bulkModulus[i] = 2 * MuLame[i] * (1 + PoissonV[i]) / (3 * (1 - 2 * PoissonV[i]));
             }
-            string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
+            string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh446elem.mphtxt");
             ComsolMeshReader1 modelReader;
             if (lambdag == null)
             {
@@ -1766,7 +1764,7 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
                 //builder.IsMatrixPositiveDefinite = false;
                 if (i == 0 || i == 1 || i == 2)
                 {
-                    //asymBuilder.IsMatrixPositiveDefinite = false;
+                    asymBuilder.IsMatrixPositiveDefinite = false;
                     solvers[i] = asymBuilder.BuildSolver(models[i]);
                 }
                 else

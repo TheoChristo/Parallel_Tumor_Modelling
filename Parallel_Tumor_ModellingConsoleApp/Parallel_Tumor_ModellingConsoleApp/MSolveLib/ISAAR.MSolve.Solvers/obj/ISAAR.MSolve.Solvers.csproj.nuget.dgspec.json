@@ -1,42 +1,39 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.Solvers\\ISAAR.MSolve.Solvers.csproj": {}
+    "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.Solvers/ISAAR.MSolve.Solvers.csproj": {}
   },
   "projects": {
-    "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.Discretization\\ISAAR.MSolve.Discretization.csproj": {
+    "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.Discretization/ISAAR.MSolve.Discretization.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.Discretization\\ISAAR.MSolve.Discretization.csproj",
+        "projectUniqueName": "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.Discretization/ISAAR.MSolve.Discretization.csproj",
         "projectName": "ISAAR.MSolve.Discretization",
-        "projectPath": "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.Discretization\\ISAAR.MSolve.Discretization.csproj",
-        "packagesPath": "C:\\Users\\cluster\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.Discretization\\obj\\",
+        "projectPath": "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.Discretization/ISAAR.MSolve.Discretization.csproj",
+        "packagesPath": "/Users/theo/.nuget/packages/",
+        "outputPath": "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.Discretization/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\cluster\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "/Users/theo/.config/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
             "projectReferences": {
-              "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.Geometry\\ISAAR.MSolve.Geometry.csproj": {
-                "projectPath": "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.Geometry\\ISAAR.MSolve.Geometry.csproj"
+              "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.Geometry/ISAAR.MSolve.Geometry.csproj": {
+                "projectPath": "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.Geometry/ISAAR.MSolve.Geometry.csproj"
               },
-              "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.LinearAlgebra\\ISAAR.MSolve.LinearAlgebra.csproj": {
-                "projectPath": "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.LinearAlgebra\\ISAAR.MSolve.LinearAlgebra.csproj"
+              "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.LinearAlgebra/ISAAR.MSolve.LinearAlgebra.csproj": {
+                "projectPath": "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.LinearAlgebra/ISAAR.MSolve.LinearAlgebra.csproj"
               }
             }
           }
@@ -49,6 +46,7 @@
       },
       "frameworks": {
         "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
           "dependencies": {
             "NETStandard.Library": {
               "suppressParent": "All",
@@ -67,40 +65,37 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.102/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.Geometry\\ISAAR.MSolve.Geometry.csproj": {
+    "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.Geometry/ISAAR.MSolve.Geometry.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.Geometry\\ISAAR.MSolve.Geometry.csproj",
+        "projectUniqueName": "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.Geometry/ISAAR.MSolve.Geometry.csproj",
         "projectName": "ISAAR.MSolve.Geometry",
-        "projectPath": "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.Geometry\\ISAAR.MSolve.Geometry.csproj",
-        "packagesPath": "C:\\Users\\cluster\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.Geometry\\obj\\",
+        "projectPath": "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.Geometry/ISAAR.MSolve.Geometry.csproj",
+        "packagesPath": "/Users/theo/.nuget/packages/",
+        "outputPath": "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.Geometry/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\cluster\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "/Users/theo/.config/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
             "projectReferences": {
-              "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.LinearAlgebra\\ISAAR.MSolve.LinearAlgebra.csproj": {
-                "projectPath": "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.LinearAlgebra\\ISAAR.MSolve.LinearAlgebra.csproj"
+              "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.LinearAlgebra/ISAAR.MSolve.LinearAlgebra.csproj": {
+                "projectPath": "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.LinearAlgebra/ISAAR.MSolve.LinearAlgebra.csproj"
               }
             }
           }
@@ -113,6 +108,7 @@
       },
       "frameworks": {
         "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
           "dependencies": {
             "NETStandard.Library": {
               "suppressParent": "All",
@@ -135,37 +131,34 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.102/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.LinearAlgebra\\ISAAR.MSolve.LinearAlgebra.csproj": {
+    "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.LinearAlgebra/ISAAR.MSolve.LinearAlgebra.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.LinearAlgebra\\ISAAR.MSolve.LinearAlgebra.csproj",
+        "projectUniqueName": "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.LinearAlgebra/ISAAR.MSolve.LinearAlgebra.csproj",
         "projectName": "ISAAR.MSolve.LinearAlgebra",
-        "projectPath": "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.LinearAlgebra\\ISAAR.MSolve.LinearAlgebra.csproj",
-        "packagesPath": "C:\\Users\\cluster\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.LinearAlgebra\\obj\\",
+        "projectPath": "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.LinearAlgebra/ISAAR.MSolve.LinearAlgebra.csproj",
+        "packagesPath": "/Users/theo/.nuget/packages/",
+        "outputPath": "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.LinearAlgebra/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\cluster\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "/Users/theo/.config/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
             "projectReferences": {}
           }
         },
@@ -177,6 +170,7 @@
       },
       "frameworks": {
         "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
           "dependencies": {
             "CSparse": {
               "target": "Package",
@@ -207,43 +201,40 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.102/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.Solvers\\ISAAR.MSolve.Solvers.csproj": {
+    "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.Solvers/ISAAR.MSolve.Solvers.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.Solvers\\ISAAR.MSolve.Solvers.csproj",
+        "projectUniqueName": "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.Solvers/ISAAR.MSolve.Solvers.csproj",
         "projectName": "ISAAR.MSolve.Solvers",
-        "projectPath": "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.Solvers\\ISAAR.MSolve.Solvers.csproj",
-        "packagesPath": "C:\\Users\\cluster\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.Solvers\\obj\\",
+        "projectPath": "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.Solvers/ISAAR.MSolve.Solvers.csproj",
+        "packagesPath": "/Users/theo/.nuget/packages/",
+        "outputPath": "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.Solvers/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\cluster\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "/Users/theo/.config/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
             "projectReferences": {
-              "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.Discretization\\ISAAR.MSolve.Discretization.csproj": {
-                "projectPath": "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.Discretization\\ISAAR.MSolve.Discretization.csproj"
+              "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.Discretization/ISAAR.MSolve.Discretization.csproj": {
+                "projectPath": "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.Discretization/ISAAR.MSolve.Discretization.csproj"
               },
-              "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.LinearAlgebra\\ISAAR.MSolve.LinearAlgebra.csproj": {
-                "projectPath": "C:\\Users\\cluster\\Desktop\\ody\\MSolve\\ISAAR.MSolve.LinearAlgebra\\ISAAR.MSolve.LinearAlgebra.csproj"
+              "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.LinearAlgebra/ISAAR.MSolve.LinearAlgebra.csproj": {
+                "projectPath": "/Users/theo/Desktop/PhD/MsolveOdy/ISAAR.MSolve.LinearAlgebra/ISAAR.MSolve.LinearAlgebra.csproj"
               }
             }
           }
@@ -256,6 +247,7 @@
       },
       "frameworks": {
         "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
           "dependencies": {
             "NETStandard.Library": {
               "suppressParent": "All",
@@ -274,7 +266,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.102/RuntimeIdentifierGraph.json"
         }
       }
     }
