@@ -6,10 +6,46 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MSolveLib\**" />
+    <EmbeddedResource Remove="MSolveLib\**" />
+    <None Remove="MSolveLib\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DotNumerics" Version="1.1.0" />
     <PackageReference Include="Accord.Math" Version="3.8.0" />
     <PackageReference Include="Compute.Bindings.IntelMKL" Version="0.1.5" />
     <PackageReference Include="CSparse" Version="3.2.3" />
     <PackageReference Include="NETStandard.Library" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ISAAR.MSolve.Analyzers">
+      <HintPath>..\..\..\ody\MSolve\ISAAR.MSolve.Problems\bin\Debug\netstandard2.0\ISAAR.MSolve.Analyzers.dll</HintPath>
+    </Reference>
+    <Reference Include="ISAAR.MSolve.Discretization">
+      <HintPath>..\..\..\ody\MSolve\ISAAR.MSolve.Problems\bin\Debug\netstandard2.0\ISAAR.MSolve.Discretization.dll</HintPath>
+    </Reference>
+    <Reference Include="ISAAR.MSolve.FEM">
+      <HintPath>..\..\..\ody\MSolve\ISAAR.MSolve.Problems\bin\Debug\netstandard2.0\ISAAR.MSolve.FEM.dll</HintPath>
+    </Reference>
+    <Reference Include="ISAAR.MSolve.Geometry">
+      <HintPath>..\..\..\ody\MSolve\ISAAR.MSolve.Problems\bin\Debug\netstandard2.0\ISAAR.MSolve.Geometry.dll</HintPath>
+    </Reference>
+    <Reference Include="ISAAR.MSolve.LinearAlgebra">
+      <HintPath>..\..\..\ody\MSolve\ISAAR.MSolve.Problems\bin\Debug\netstandard2.0\ISAAR.MSolve.LinearAlgebra.dll</HintPath>
+    </Reference>
+    <Reference Include="ISAAR.MSolve.Logging">
+      <HintPath>..\..\..\ody\MSolve\ISAAR.MSolve.Problems\bin\Debug\netstandard2.0\ISAAR.MSolve.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="ISAAR.MSolve.Materials">
+      <HintPath>..\..\..\ody\MSolve\ISAAR.MSolve.Problems\bin\Debug\netstandard2.0\ISAAR.MSolve.Materials.dll</HintPath>
+    </Reference>
+    <Reference Include="ISAAR.MSolve.Problems">
+      <HintPath>..\..\..\ody\MSolve\ISAAR.MSolve.Problems\bin\Debug\netstandard2.0\ISAAR.MSolve.Problems.dll</HintPath>
+    </Reference>
+    <Reference Include="ISAAR.MSolve.Solvers">
+      <HintPath>..\..\..\ody\MSolve\ISAAR.MSolve.Problems\bin\Debug\netstandard2.0\ISAAR.MSolve.Solvers.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

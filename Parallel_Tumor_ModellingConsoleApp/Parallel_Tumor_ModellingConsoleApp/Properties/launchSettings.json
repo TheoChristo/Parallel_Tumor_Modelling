@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Parallel_Tumor_ModellingConsoleApp": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\cluster\\Desktop\\t\\testRuns\\testRunFine2\\inputParams.txt"
+    }
+  }
+}

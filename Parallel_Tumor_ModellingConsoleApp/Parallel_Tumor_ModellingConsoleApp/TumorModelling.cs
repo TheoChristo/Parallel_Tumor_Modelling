@@ -30,6 +30,8 @@ using System.Reflection;
 using ISAAR.MSolve.FEM.Elements;
 using ISAAR.MSolve.LinearAlgebra.Matrices;
 using ISAAR.MSolve.FEM.Loading.Interfaces;
+using ISAAR.MSolve.Solvers.Ordering;
+using ISAAR.MSolve.Solvers.Ordering.Reordering;
 
 namespace Parallel_Tumor_Modelling_ConsoleApp
 {
@@ -39,126 +41,153 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
         private const double time = 30;
         private const int subdomainID = 0;
         private static readonly double[] loxc = new double[] { .07 / 24d / 3600d, 1.0 / 24d / 3600d }; //1/s
-        private static readonly double[] Aox = new double[] { 2200.0d / 24d / 3600d, 2200d / 24d / 3600d }; //mol/(m^3*s)
-        private static readonly double[] Dox = new double[] { 1.78e-9, 1.79e-9 }; //m^2/s
-        private static readonly double[] kox = new double[] { .00464, .00464 }; //mol/m^3
-        private static readonly double[] Koxc = new double[] { 0.0083, 0.0083 }; //mol/m^3
-        private static readonly double[] Dcell = new double[] { 5.4e-3, 1.8e-4 }; //m^2/s
-        private static readonly double[] Dvegf = new double[] { 3.1e-11, 3.1e-11 }; //m^2/s
-		private static readonly double[] khy = new double[] { 8.7e-21, 8.7e-21 };  //m^3*d/kg};
-        private static readonly double[] lp = new double[] { 2.7e-12, 2.7e-12 };  //m^2*s/kg;
-        private static double T0 = 1; //kg/m^3
-        private static double Cv0 = 1; //kg/m^3
-        private static double Cs0 = 1; //kg/m^3
-        private static double l2 = 1e-5; //m^3/kg/s
-        private static double l4 = 1e-11; //m/s
-        private static double l10 = 6.8e-9; //1/s
-        private static double l11 = 4e-8; //m/s
-        private static double l13 = 4e-9; //1/s
-        private static double cvox = 0.2; //mol/m^3
-        private static double Lwv = 5e-6; //m
-        private static double mtox = 8e-3 * 1.1 * 1e-6 / 3600d; //m^2/s
-        private static double pv = 4000; //kg/m/s^2
-        private static double Svin = 7000; //1/m
-        private static double WvsTc = 1;
-        private static double WvsSv = 1;
-        private static double xn = 1e-12;//m^5/kg/s
-        private static double Dsv = 1e-7 * 1e-8;//m^2/s
-        private static double s1 = 1e6;//m^3/mol
-        private static double s2 = 1e6;//m^3/mol
-        private static double a10 = 1e-6;//mol/m^3
-        private static double a20 = 1e-6;//mol/m^3
-        private static double aD = 1;
-        private static double bD = 1;
-        private static double m1 = 4.56 * 100d / 3600d; //1/s
-        private static double m2 = 4.56 * 100d / 3600d; //1/s
-        private static double b1 = 2280d / 3600d; //1/s
-        private static double b2 = 18240d / 3600d; //1/s
-        private static double[][] conv0 = new double[][] { new double[] { 0, 0, 0 }, new double[] { 0, 0, 0 } };
-        //private static double fox = -((Aox * c_ox) / (kox + c_ox * cvox)) * 0.3;
-		private static SuiteSparseSolver.Builder builder = new SuiteSparseSolver.Builder();
+		private static readonly double[] Aox = new double[] { 2200.0d / 24d / 3600d, 2200d / 24d / 3600d }; //mol/(m^3*s)
+		private static readonly double[] Dox = new double[] { 1.78e-9, 1.79e-9 }; //m^2/s
+		private static readonly double[] kox = new double[] { .00464, .00464 }; //mol/m^3
+		private static readonly double[] Koxc = new double[] { 0.0083, 0.0083 }; //mol/m^3
+		private static readonly double[] Dcell = new double[] { 5.4e-3, 1.8e-4 }; //m^2/s
+		private static readonly double[] Dvegf = new double[] { 3.1e-11, 3.1e-11 }; //m^2/s
+		private static readonly double[] khy = new double[] { 6.5e-11, 6.5e-11 };  //m^2/(Pa*d);
+		private static readonly double[] lp = new double[] { 2.7e-12, 2.7e-12 };  //m^2*s/kg;
+		private static double T0 = 1; //kg/m^3
+		private static double Cv0 = 1; //kg/m^3
+		private static double Cs0 = 1; //kg/m^3
+		private static double l2 = 1e-5; //m^3/kg/s
+		private static double l4 = 1e-11; //m/s
+		private static double l10 = 6.8e-9; //1/s
+		private static double l11 = 4e-8; //m/s
+		private static double l13 = 4e-9; //1/s
+		private static double cvox = 0.2; //mol/m^3
+		private static double Lwv = 5e-6; //m
+		private static double mtox = 8e-3 * 1.1 * 1e-6 / 3600d; //m^2/s
+		private static double pv = 4000; //kg/m/s^2
+		private static double Svin = 7000; //1/m
+		private static double WvsTc = 1;
+		private static double WvsSv = 1;
+		private static double xn = 1e-12;//m^5/kg/s
+		private static double Dsv = 1e-7 * 1e-8;//m^2/s
+		private static double s1 = 1e6;//m^3/mol
+		private static double s2 = 1e6;//m^3/mol
+		private static double a10 = 1e-6;//mol/m^3
+		private static double a20 = 1e-6;//mol/m^3
+		private static double aD = 1;
+		private static double bD = 1;
+		private static double m1 = 4.56 * 100d / 3600d; //1/s
+		private static double m2 = 4.56 * 100d / 3600d; //1/s
+		private static double b1 = 2280d / 3600d; //1/s
+		private static double b2 = 18240d / 3600d; //1/s
+		private static double[][] conv0 = new double[][] { new double[] { 0, 0, 0 }, new double[] { 0, 0, 0 } };
+        private static int solverSymmetric = 0; // 0 = Skyline, 1 = CSparse, 2 = SuiteSparse
+        private static int solverNonSymmetric = 1; // 0 = Dense, 1 = CSparseLU
+		private static bool reordering = false;
+		private static ISolverBuilder builder, asymBuilder, structuralBuilder;
+		//private static double fox = -((Aox * c_ox) / (kox + c_ox * cvox)) * 0.3;
+		//private static SuiteSparseSolver.Builder builder = new SuiteSparseSolver.Builder()
+		//{
+		//    DofOrderer = new DofOrderer(new NodeMajorDofOrderingStrategy(), new NullReordering())
+		//};
+		//private static CSparseCholeskySolver.Builder builder = new CSparseCholeskySolver.Builder()
+		//{
+		//	DofOrderer = new DofOrderer(new NodeMajorDofOrderingStrategy(), new NullReordering())
+		//};
 		//private static SkylineSolver.Builder builder = new SkylineSolver.Builder();
-		private static CSparseLUSolver.Builder asymBuilder = new CSparseLUSolver.Builder();
-		private static SuiteSparseSolver.Builder structuralBuilder = new SuiteSparseSolver.Builder();
+		//private static DenseMatrixSolver.Builder asymBuilder = new DenseMatrixSolver.Builder();
+		//private static CSparseLUSolver.Builder asymBuilder = new CSparseLUSolver.Builder();
+		//private static CSparseLUSolver.Builder asymBuilder = new CSparseLUSolver.Builder()
+		//{
+		//	DofOrderer = new DofOrderer(new NodeMajorDofOrderingStrategy(), new NullReordering())
+		//};
+
+		//private static CSparseCholeskySolver.Builder structuralBuilder = new CSparseCholeskySolver.Builder()
+		//{
+		//	DofOrderer = new DofOrderer(new NodeMajorDofOrderingStrategy(), new NullReordering())
+		//};
+		//private static SuiteSparseSolver.Builder structuralBuilder = new SuiteSparseSolver.Builder()
+		//       {
+		//           DofOrderer = new DofOrderer(new NodeMajorDofOrderingStrategy(), new NullReordering())
+		//       };
 		//private static SkylineSolver.Builder structuralBuilder = new SkylineSolver.Builder();
-        private static double[] lgNode;
-        private static double[] lgElement;
-        private static double[] CsNode;
-        private static double[] CsElement;
-        private static double[] CvNode;
-        private static double[] CvElement;
-        private static double[] c_oxNode;
-        private static double[] c_oxElement;
-        private static double[] tumcNode;
-        private static double[] pSolution;
-        private static double[] tumcElement;
-        private static double[] pNode;
-        private static double[] pElement;
-        private static double[] SvDNode;
-        private static double[] SvDElement;
-        private static double[] a1Node;
-        private static double[] a1Element;
-        private static double[] a2Node;
-        private static double[] a2Element;
-        private static double[] phisNode;
-        private static double[] phisElement;
-        private static Dictionary<int, double> duof = new Dictionary<int, double>();
-        private static Dictionary<int, double> dvof = new Dictionary<int, double>();
-        private static Dictionary<int, double> dwof = new Dictionary<int, double>();
-        private static double[] dd0;
-        private static Dictionary<int, double[]> aNode = new Dictionary<int, double[]>();
-        private static Dictionary<int, double[]> aElement = new Dictionary<int, double[]>();
-        private static Dictionary<int, double[]> vNode = new Dictionary<int, double[]>();
-        private static Dictionary<int, double[]> vElement = new Dictionary<int, double[]>();
-        private static Dictionary<int, double[]> uNode = new Dictionary<int, double[]>();
-        private static Dictionary<int, double[]> uElement = new Dictionary<int, double[]>();
-        private static Dictionary<int, double[]> dcoxNode = new Dictionary<int, double[]>();
-        private static Dictionary<int, double[]> dcoxElement; /*= new Dictionary<int, double[]>();*/
-        private static Dictionary<int, double[]> dpNode = new Dictionary<int, double[]>();
-        private static Dictionary<int, double[]> dpSolution = new Dictionary<int, double[]>();
-        private static Dictionary<int, double[]> dpElement; /*= new Dictionary<int, double[]>();*/
-        private static Dictionary<int, double[]> ddpNode = new Dictionary<int, double[]>();
-        private static Dictionary<int, double[]> ddpSolution = new Dictionary<int, double[]>();
-        private static Dictionary<int, double[]> ddpElement; /*= new Dictionary<int, double[]>();*/
-        private static Dictionary<int, double[]> ddcoxNode = new Dictionary<int, double[]>();
-        private static Dictionary<int, double[]> ddcoxElement; /*= new Dictionary<int, double[]>();*/
-        private static Dictionary<int, double[]> dCsNode = new Dictionary<int, double[]>();
-        private static Dictionary<int, double[]> dCsElement; /*= new Dictionary<int, double[]>();*/
-        private static Dictionary<int, double[]> ddCsNode = new Dictionary<int, double[]>();
-        private static Dictionary<int, double[]> ddCsElement; /*= new Dictionary<int, double[]>();*/
-        private static Dictionary<int, double[]> dCvNode = new Dictionary<int, double[]>();
-        private static Dictionary<int, double[]> dCvElement; /*= new Dictionary<int, double[]>();*/
-        private static Dictionary<int, double[]> ddCvNode = new Dictionary<int, double[]>();
-        private static Dictionary<int, double[]> ddCvElement; /*= new Dictionary<int, double[]>();*/
-        private static Dictionary<int, double[]> dphisNode = new Dictionary<int, double[]>();
-        private static Dictionary<int, double[]> dphisElement; /*= new Dictionary<int, double[]>();*/
-        private static Dictionary<int, double[]> OxygenTransportU;
-        private static Dictionary<int, double> OxygenTransportL;
-        private static Dictionary<int, double[]> CancerTransportU;
-        private static Dictionary<int, double> CancerTransportL;
-        private static Dictionary<int, double[]> PressureU;
-        private static Dictionary<int, double> PressureL;
-        private static Dictionary<int, double> SvDK;
-        private static Dictionary<int, double[]> SvDU;
-        private static Dictionary<int, double> SvDL;
-        private static Dictionary<int, double> CvK;
-        private static Dictionary<int, double[]> CvU;
-        private static Dictionary<int, double> CvL;
-        private static Dictionary<int, double[]> phisU;
-        private static Dictionary<int, double> phisL;
-        private static Dictionary<int, IVector> Accelerations;
-        private static Dictionary<int, IVector> Velocities;
-        private static double[][] PreviousSpaceDerivatives;
-        private static double[][] SpaceDerivatives;
-        private static Dictionary<int, double[]> uXt;
-        private static Dictionary<int, IVector> Displacements;
-        private static Tuple<Model, IModelReader> oxModel, gModel, ctModel, prModel, csModel,
-            SvDModel, cvModel, a1Model, a2Model, phisModel, structModel;
-        private static int pressureModelFreeDOFs = 0;
+		private static double[] lgNode;
+		private static double[] lgElement;
+		private static double[] CsNode;
+		private static double[] CsElement;
+		private static double[] CvNode;
+		private static double[] CvElement;
+		private static double[] c_oxNode;
+		private static double[] c_oxElement;
+		private static double[] tumcNode;
+		private static double[] pSolution;
+		private static double[] tumcElement;
+		private static double[] pNode;
+		private static double[] pElement;
+		private static double[] SvDNode;
+		private static double[] SvDElement;
+		private static double[] a1Node;
+		private static double[] a1Element;
+		private static double[] a2Node;
+		private static double[] a2Element;
+		private static double[] phisNode;
+		private static double[] phisElement;
+		private static Dictionary<int, double> duof = new Dictionary<int, double>();
+		private static Dictionary<int, double> dvof = new Dictionary<int, double>();
+		private static Dictionary<int, double> dwof = new Dictionary<int, double>();
+		private static Dictionary<int, double> dd0;
+		private static Dictionary<int, double[]> aNode = new Dictionary<int, double[]>();
+		private static Dictionary<int, double[]> aElement = new Dictionary<int, double[]>();
+		private static Dictionary<int, double[]> vNode = new Dictionary<int, double[]>();
+		private static Dictionary<int, double[]> vElement = new Dictionary<int, double[]>();
+		private static Dictionary<int, double[]> uNode = new Dictionary<int, double[]>();
+		private static Dictionary<int, double[]> uElement = new Dictionary<int, double[]>();
+		private static Dictionary<int, double[]> dcoxNode = new Dictionary<int, double[]>();
+		private static Dictionary<int, double[]> dcoxElement; /*= new Dictionary<int, double[]>();*/
+		private static Dictionary<int, double[]> dpNode = new Dictionary<int, double[]>();
+		private static Dictionary<int, double[]> dpSolution = new Dictionary<int, double[]>();
+		private static Dictionary<int, double[]> dpElement; /*= new Dictionary<int, double[]>();*/
+		private static Dictionary<int, double[]> ddpNode = new Dictionary<int, double[]>();
+		private static Dictionary<int, double[]> ddpSolution = new Dictionary<int, double[]>();
+		private static Dictionary<int, double[]> ddpElement; /*= new Dictionary<int, double[]>();*/
+		private static Dictionary<int, double[]> ddcoxNode = new Dictionary<int, double[]>();
+		private static Dictionary<int, double[]> ddcoxElement; /*= new Dictionary<int, double[]>();*/
+		private static Dictionary<int, double[]> dCsNode = new Dictionary<int, double[]>();
+		private static Dictionary<int, double[]> dCsElement; /*= new Dictionary<int, double[]>();*/
+		private static Dictionary<int, double[]> ddCsNode = new Dictionary<int, double[]>();
+		private static Dictionary<int, double[]> ddCsElement; /*= new Dictionary<int, double[]>();*/
+		private static Dictionary<int, double[]> dCvNode = new Dictionary<int, double[]>();
+		private static Dictionary<int, double[]> dCvElement; /*= new Dictionary<int, double[]>();*/
+		private static Dictionary<int, double[]> ddCvNode = new Dictionary<int, double[]>();
+		private static Dictionary<int, double[]> ddCvElement; /*= new Dictionary<int, double[]>();*/
+		private static Dictionary<int, double[]> dphisNode = new Dictionary<int, double[]>();
+		private static Dictionary<int, double[]> dphisElement; /*= new Dictionary<int, double[]>();*/
+		private static Dictionary<int, double[]> OxygenTransportU;
+		private static Dictionary<int, double> OxygenTransportL;
+		private static Dictionary<int, double[]> CancerTransportU;
+		private static Dictionary<int, double> CancerTransportL;
+		private static Dictionary<int, double[]> PressureU;
+		private static Dictionary<int, double> PressureL;
+		private static Dictionary<int, double> SvDK;
+		private static Dictionary<int, double[]> SvDU;
+		private static Dictionary<int, double> SvDL;
+		private static Dictionary<int, double> CvK;
+		private static Dictionary<int, double[]> CvU;
+		private static Dictionary<int, double> CvL;
+		private static Dictionary<int, double[]> phisU;
+		private static Dictionary<int, double> phisL;
+		private static Dictionary<int, IVector> Accelerations;
+		private static Dictionary<int, IVector> Velocities;
+		private static double[][] PreviousSpaceDerivatives;
+		private static double[][] SpaceDerivatives;
+		private static Dictionary<int, double[]> uXt;
+		private static Dictionary<int, IVector> Displacements;
+		private static Tuple<Model, IModelReader> oxModel, gModel, ctModel, prModel, csModel,
+			SvDModel, cvModel, a1Model, a2Model, phisModel, structModel;
+		private static int pressureModelFreeDOFs = 0;
+        private static string inputFile = "mesh.mphtxt";
+        //private static string inputFile = "mesh446elem.mphtxt";
         private static readonly double[] muLame = new double[] { 6e4, 2.1e4 };
 
         public TumorModelling(double[] khy_In, double muLame0_In, double Svin_In, double[] lp_In, double Dcell0_In)
         {
+            Console.WriteLine("Creating SuiteSparse Model");
             khy[0] = khy_In[0];
             khy[1] = khy_In[1];
             muLame[0] = muLame0_In;
@@ -166,21 +195,85 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             lp[0] = lp_In[0];
             lp[1] = lp_In[1];
             Dcell[0] = Dcell0_In;
+
+            if (solverNonSymmetric == 0)
+			{
+				asymBuilder = new DenseMatrixSolver.Builder();
+			}
+			else
+			{
+				asymBuilder = new CSparseLUSolver.Builder()
+				{
+					DofOrderer = new DofOrderer(new NodeMajorDofOrderingStrategy(), new NullReordering())
+				};
+			}
+			if (solverSymmetric == 0)
+			{
+				builder = new SkylineSolver.Builder();
+				structuralBuilder = new SkylineSolver.Builder();
+			}
+			else if (solverSymmetric == 1)
+			{
+				IDofReorderingStrategy reorderingStrategy;
+				if (reordering)
+				{
+					reorderingStrategy = AmdReordering.CreateWithCSparseAmd();
+				}
+				else
+				{
+					reorderingStrategy = new NullReordering();
+				}
+				builder = new CSparseCholeskySolver.Builder()
+				{
+					DofOrderer = new DofOrderer(new NodeMajorDofOrderingStrategy(), reorderingStrategy)
+				};
+				structuralBuilder = new CSparseCholeskySolver.Builder()
+				{
+					DofOrderer = new DofOrderer(new NodeMajorDofOrderingStrategy(), reorderingStrategy)
+				};
+			}
+			else
+			{
+				IDofReorderingStrategy reorderingStrategy;
+				if (reordering)
+				{
+					reorderingStrategy = AmdReordering.CreateWithSuiteSparseAmd();
+				}
+				else
+				{
+					reorderingStrategy = new NullReordering();
+				}
+				builder = new SuiteSparseSolver.Builder()
+				{
+					DofOrderer = new DofOrderer(new NodeMajorDofOrderingStrategy(), reorderingStrategy)
+				};
+				structuralBuilder = new SuiteSparseSolver.Builder()
+				{
+					DofOrderer = new DofOrderer(new NodeMajorDofOrderingStrategy(), reorderingStrategy)
+				};
+			}
         }
 
         public bool RunModel()
         {
-            var DoxDays = new double[Dox.Length];
-            for (int i = 0; i < Dox.Length; i++)
-            {
-                DoxDays[i] = 24 * 3600 * Dox[i];
-            }
+            var path1 = Path.Combine(Directory.GetCurrentDirectory(), $"solutionNorms");
+			if (!Directory.Exists(path1))
+			{
+				Directory.CreateDirectory(path1);
+			}
+			var path2 = Path.Combine(path1, $"solutionNorm.txt");
+			ISAAR.MSolve.Discretization.Logging.GlobalLogger.OpenOutputFile(path2);
+			var DoxDays = new double[Dox.Length];
+			for (int i = 0; i < Dox.Length; i++)
+			{
+				DoxDays[i] = 24 * 3600 * Dox[i];
+			}
 
-            var DcellDays = new double[Dcell.Length];
-            for (int i = 0; i < Dox.Length; i++)
-            {
-                DcellDays[i] = 24 * 3600 * Dcell[i];
-            }
+			var DcellDays = new double[Dcell.Length];
+			for (int i = 0; i < Dox.Length; i++)
+			{
+				DcellDays[i] = 24 * 3600 * Dcell[i];
+			}
 
             SvDModel = CreateSvDModel();
             oxModel = CreateOxygenTransportModel(DoxDays);
@@ -193,11 +286,12 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             a2Model = CreateAng2Model();
             phisModel = CreatePhisModel();
             var models = new[] { SvDModel.Item1, oxModel.Item1, ctModel.Item1, gModel.Item1,
-                prModel.Item1, csModel.Item1, csModel.Item1, a1Model.Item1, a2Model.Item1, phisModel.Item1 };
-            var modelReaders = new[] { SvDModel.Item2, oxModel.Item2, ctModel.Item2, gModel.Item2,
-                prModel.Item2, csModel.Item2, cvModel.Item2, a1Model.Item2, a2Model.Item2, phisModel.Item2 };
-            IVectorView[] solutions = SolveModelsWithNewmark(models, modelReaders);
-
+				prModel.Item1, csModel.Item1, csModel.Item1, a1Model.Item1, a2Model.Item1, phisModel.Item1 };
+			var modelReaders = new[] { SvDModel.Item2, oxModel.Item2, ctModel.Item2, gModel.Item2,
+				prModel.Item2, csModel.Item2, cvModel.Item2, a1Model.Item2, a2Model.Item2, phisModel.Item2 };
+			IVectorView[] solutions = SolveModelsWithNewmark(models, modelReaders);
+			ISAAR.MSolve.Discretization.Logging.GlobalLogger.CloseCurrentOutputFile();
+			
             //Assert.True(CompareResults(solutions[0]));//theo change
             return true;
         }
@@ -205,138 +299,138 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
         private static void Paraview(int timeStep)
         {
             var path0 = Path.Combine(Directory.GetCurrentDirectory(), $"paraviewOutput");
-            var path3 = Path.Combine(path0, $"results{timeStep}.vtu");
-            var numberOfPoints = structModel.Item1.Nodes.Count;
-            var numberOfCells = structModel.Item1.Elements.Count;
-            using (StreamWriter outputFile = new StreamWriter(path3))
-            {
-                outputFile.WriteLine("<VTKFile type=\"UnstructuredGrid\" version=\"0.1\" byte_order=\"LittleEndian\">");
-                outputFile.WriteLine("  <UnstructuredGrid>");
-                outputFile.WriteLine($"     <Piece NumberOfPoints=\"{numberOfPoints}\" NumberOfCells=\"{numberOfCells}\">");
-                outputFile.WriteLine("          <Points>");
+			var path3 = Path.Combine(path0, $"results{timeStep}.vtu");
+			var numberOfPoints = structModel.Item1.Nodes.Count;
+			var numberOfCells = structModel.Item1.Elements.Count;
+			using (StreamWriter outputFile = new StreamWriter(path3))
+			{
+				outputFile.WriteLine("<VTKFile type=\"UnstructuredGrid\" version=\"0.1\" byte_order=\"LittleEndian\">");
+				outputFile.WriteLine("  <UnstructuredGrid>");
+				outputFile.WriteLine($"     <Piece NumberOfPoints=\"{numberOfPoints}\" NumberOfCells=\"{numberOfCells}\">");
+				outputFile.WriteLine("          <Points>");
 
-                outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"position\" NumberOfComponents=\"3\" format =\"ascii\">");
-                for (int i = 0; i < numberOfPoints; i++)
-                    outputFile.WriteLine($"{structModel.Item1.Nodes[i].X} {structModel.Item1.Nodes[i].Y} {structModel.Item1.Nodes[i].Z} ");
-                outputFile.WriteLine("              </DataArray>");
+				outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"position\" NumberOfComponents=\"3\" format =\"ascii\">");
+				for (int i = 0; i < numberOfPoints; i++)
+					outputFile.WriteLine($"{structModel.Item1.Nodes[i].X} {structModel.Item1.Nodes[i].Y} {structModel.Item1.Nodes[i].Z} ");
+				outputFile.WriteLine("              </DataArray>");
 
-                outputFile.WriteLine("          </Points>");
-                outputFile.WriteLine("          <PointData>");
+				outputFile.WriteLine("          </Points>");
+				outputFile.WriteLine("          <PointData>");
 
-                outputFile.WriteLine("              <DataArray type=\"Int32\" Name=\"node_ID\" NumberOfComponents=\"1\" format=\"ascii\">");
-                for (int i = 0; i < numberOfPoints; i++)
-                    outputFile.WriteLine($"{i + 1}");
-                outputFile.WriteLine("              </DataArray>");
+				outputFile.WriteLine("              <DataArray type=\"Int32\" Name=\"node_ID\" NumberOfComponents=\"1\" format=\"ascii\">");
+				for (int i = 0; i < numberOfPoints; i++)
+					outputFile.WriteLine($"{i + 1}");
+				outputFile.WriteLine("              </DataArray>");
 
 
-                outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"totalDisplacement\" NumberOfComponents=\"1\" format =\"ascii\">");
-                for (int i = 0; i < numberOfPoints; i++)
-                {
-                    double dist = Math.Sqrt(Math.Pow(oxModel.Item1.Nodes[i].X - structModel.Item1.Nodes[i].X, 2) +
-                        Math.Pow(oxModel.Item1.Nodes[i].Y - structModel.Item1.Nodes[i].Y, 2) +
-                        Math.Pow(oxModel.Item1.Nodes[i].Z - structModel.Item1.Nodes[i].Z, 2));
-                    outputFile.WriteLine($"{dist} ");
-                }
-                outputFile.WriteLine("              </DataArray>");
+				outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"totalDisplacement\" NumberOfComponents=\"1\" format =\"ascii\">");
+				for (int i = 0; i < numberOfPoints; i++)
+				{
+					double dist = Math.Sqrt(Math.Pow(oxModel.Item1.Nodes[i].X - structModel.Item1.Nodes[i].X, 2) +
+						Math.Pow(oxModel.Item1.Nodes[i].Y - structModel.Item1.Nodes[i].Y, 2) +
+						Math.Pow(oxModel.Item1.Nodes[i].Z - structModel.Item1.Nodes[i].Z, 2));
+					outputFile.WriteLine($"{dist} ");
+				}
+				outputFile.WriteLine("              </DataArray>");
 
-                outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"oxygen\" NumberOfComponents=\"1\" format=\"ascii\">");
-                for (int i = 0; i < numberOfPoints; i++)
-                    outputFile.WriteLine($"{c_oxNode[i]} ");
-                outputFile.WriteLine("              </DataArray>");
+				outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"oxygen\" NumberOfComponents=\"1\" format=\"ascii\">");
+				for (int i = 0; i < numberOfPoints; i++)
+					outputFile.WriteLine($"{c_oxNode[i]} ");
+				outputFile.WriteLine("              </DataArray>");
 
-                outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"growth factor\" NumberOfComponents=\"1\" format=\"ascii\">");
-                for (int i = 0; i < lgNode.Length; i++)
-                    outputFile.WriteLine($"{lgNode[i]} ");
-                for (int i = lgNode.Length; i < numberOfPoints; i++)
-                    outputFile.WriteLine($"1 ");
-                outputFile.WriteLine("              </DataArray>");
+				outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"growth factor\" NumberOfComponents=\"1\" format=\"ascii\">");
+				for (int i = 0; i < lgNode.Length; i++)
+					outputFile.WriteLine($"{lgNode[i]} ");
+				for (int i = lgNode.Length; i < numberOfPoints; i++)
+					outputFile.WriteLine($"1 ");
+				outputFile.WriteLine("              </DataArray>");
 
-                outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"cancer cells\" NumberOfComponents=\"1\" format=\"ascii\">");
-                for (int i = 0; i < tumcNode.Length; i++)
-                    outputFile.WriteLine($"{tumcNode[i]} ");
-                for (int i = tumcNode.Length; i < numberOfPoints; i++)
-                    outputFile.WriteLine($"0 ");
-                outputFile.WriteLine("              </DataArray>");
+				outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"cancer cells\" NumberOfComponents=\"1\" format=\"ascii\">");
+				for (int i = 0; i < tumcNode.Length; i++)
+					outputFile.WriteLine($"{tumcNode[i]} ");
+				for (int i = tumcNode.Length; i < numberOfPoints; i++)
+					outputFile.WriteLine($"0 ");
+				outputFile.WriteLine("              </DataArray>");
 
-                outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"pressure\" NumberOfComponents=\"1\" format=\"ascii\">");
-                for (int i = 0; i < numberOfPoints; i++)
-                    outputFile.WriteLine($"{pNode[i]} ");
-                outputFile.WriteLine("              </DataArray>");
+				outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"pressure\" NumberOfComponents=\"1\" format=\"ascii\">");
+				for (int i = 0; i < numberOfPoints; i++)
+					outputFile.WriteLine($"{pNode[i]} ");
+				outputFile.WriteLine("              </DataArray>");
 
-                outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"Cs\" NumberOfComponents=\"1\" format=\"ascii\">");
-                for (int i = 0; i < CsNode.Length; i++)
-                    outputFile.WriteLine($"{CsNode[i]} ");
-                outputFile.WriteLine("              </DataArray>");
+				outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"Cs\" NumberOfComponents=\"1\" format=\"ascii\">");
+				for (int i = 0; i < CsNode.Length; i++)
+					outputFile.WriteLine($"{CsNode[i]} ");
+				outputFile.WriteLine("              </DataArray>");
 
-                outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"SvD\" NumberOfComponents=\"1\" format=\"ascii\">");
-                for (int i = 0; i < SvDNode.Length; i++)
-                    outputFile.WriteLine($"{SvDNode[i]} ");
-                outputFile.WriteLine("              </DataArray>");
+				outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"SvD\" NumberOfComponents=\"1\" format=\"ascii\">");
+				for (int i = 0; i < SvDNode.Length; i++)
+					outputFile.WriteLine($"{SvDNode[i]} ");
+				outputFile.WriteLine("              </DataArray>");
 
-                outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"Cv\" NumberOfComponents=\"1\" format=\"ascii\">");
-                for (int i = 0; i < CvNode.Length; i++)
-                    outputFile.WriteLine($"{CvNode[i]} ");
-                outputFile.WriteLine("              </DataArray>");
+				outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"Cv\" NumberOfComponents=\"1\" format=\"ascii\">");
+				for (int i = 0; i < CvNode.Length; i++)
+					outputFile.WriteLine($"{CvNode[i]} ");
+				outputFile.WriteLine("              </DataArray>");
 
-                outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"Ang1\" NumberOfComponents=\"1\" format=\"ascii\">");
-                for (int i = 0; i < a1Node.Length; i++)
-                    outputFile.WriteLine($"{a1Node[i]} ");
-                outputFile.WriteLine("              </DataArray>");
+				outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"Ang1\" NumberOfComponents=\"1\" format=\"ascii\">");
+				for (int i = 0; i < a1Node.Length; i++)
+					outputFile.WriteLine($"{a1Node[i]} ");
+				outputFile.WriteLine("              </DataArray>");
 
-                outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"Ang2\" NumberOfComponents=\"1\" format=\"ascii\">");
-                for (int i = 0; i < a2Node.Length; i++)
-                    outputFile.WriteLine($"{a2Node[i]} ");
-                outputFile.WriteLine("              </DataArray>");
+				outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"Ang2\" NumberOfComponents=\"1\" format=\"ascii\">");
+				for (int i = 0; i < a2Node.Length; i++)
+					outputFile.WriteLine($"{a2Node[i]} ");
+				outputFile.WriteLine("              </DataArray>");
 
-                outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"phis\" NumberOfComponents=\"1\" format=\"ascii\">");
-                for (int i = 0; i < phisNode.Length; i++)
-                    outputFile.WriteLine($"{phisNode[i]} ");
-                for (int i = phisNode.Length; i < numberOfPoints; i++)
-                    outputFile.WriteLine($"0.3 ");
-                outputFile.WriteLine("              </DataArray>");
+				outputFile.WriteLine("              <DataArray type=\"Float64\" Name=\"phis\" NumberOfComponents=\"1\" format=\"ascii\">");
+				for (int i = 0; i < phisNode.Length; i++)
+					outputFile.WriteLine($"{phisNode[i]} ");
+				for (int i = phisNode.Length; i < numberOfPoints; i++)
+					outputFile.WriteLine($"0.3 ");
+				outputFile.WriteLine("              </DataArray>");
 
-                outputFile.WriteLine("          </PointData>");
-                outputFile.WriteLine("          <CellData>");
-                outputFile.WriteLine("              <DataArray type=\"Int32\" Name=\"element_ID\" NumberOfComponents=\"1\" format=\"ascii\">");
-                for (int i = 0; i < numberOfCells; i++)
-                {
-                    outputFile.WriteLine($"{i + 1}");
-                }
-                outputFile.WriteLine("              </DataArray>");
-                outputFile.WriteLine("          </CellData>");
-                outputFile.WriteLine("          <Cells>");
+				outputFile.WriteLine("          </PointData>");
+				outputFile.WriteLine("          <CellData>");
+				outputFile.WriteLine("              <DataArray type=\"Int32\" Name=\"element_ID\" NumberOfComponents=\"1\" format=\"ascii\">");
+				for (int i = 0; i < numberOfCells; i++)
+				{
+					outputFile.WriteLine($"{i + 1}");
+				}
+				outputFile.WriteLine("              </DataArray>");
+				outputFile.WriteLine("          </CellData>");
+				outputFile.WriteLine("          <Cells>");
 
-                outputFile.WriteLine("              <DataArray type=\"Int32\" Name=\"connectivity\">");
-                for (int i = 0; i < numberOfCells; i++)
-                {
-                    for (int j = 0; j < structModel.Item1.Elements[i].Nodes.Count; j++)
-                        outputFile.Write($"{structModel.Item1.Elements[i].Nodes[j].ID} ");
-                    outputFile.WriteLine("");
-                }
-                outputFile.WriteLine("              </DataArray>");
+				outputFile.WriteLine("              <DataArray type=\"Int32\" Name=\"connectivity\">");
+				for (int i = 0; i < numberOfCells; i++)
+				{
+					for (int j = 0; j < structModel.Item1.Elements[i].Nodes.Count; j++)
+						outputFile.Write($"{structModel.Item1.Elements[i].Nodes[j].ID} ");
+					outputFile.WriteLine("");
+				}
+				outputFile.WriteLine("              </DataArray>");
 
-                outputFile.WriteLine("              <DataArray type=\"Int32\" Name=\"offsets\" NumberOfComponents=\"1\" format=\"ascii\">");
-                var offset = 0;
-                for (int i = 0; i < numberOfCells; i++)
-                {
-                    offset += structModel.Item1.Elements[i].Nodes.Count;
-                    outputFile.WriteLine($"{offset} ");
-                }
-                outputFile.WriteLine("              </DataArray>");
+				outputFile.WriteLine("              <DataArray type=\"Int32\" Name=\"offsets\" NumberOfComponents=\"1\" format=\"ascii\">");
+				var offset = 0;
+				for (int i = 0; i < numberOfCells; i++)
+				{
+					offset += structModel.Item1.Elements[i].Nodes.Count;
+					outputFile.WriteLine($"{offset} ");
+				}
+				outputFile.WriteLine("              </DataArray>");
 
-                outputFile.WriteLine("              <DataArray type=\"Int32\" Name =\"types\" NumberOfComponents =\"1\" format=\"ascii\">");
-                for (int i = 0; i < numberOfCells; i++)
-                {
-                    if (structModel.Item1.Elements[i].Nodes.Count == 4)
-                        outputFile.WriteLine($"{10} ");
-                    else outputFile.WriteLine($"{5} ");
-                }
-                outputFile.WriteLine("              </DataArray>");
-                outputFile.WriteLine("          </Cells>");
-                outputFile.WriteLine("      </Piece>");
-                outputFile.WriteLine("  </UnstructuredGrid>");
-                outputFile.WriteLine("</VTKFile>");
-            }
+				outputFile.WriteLine("              <DataArray type=\"Int32\" Name =\"types\" NumberOfComponents =\"1\" format=\"ascii\">");
+				for (int i = 0; i < numberOfCells; i++)
+				{
+					if (structModel.Item1.Elements[i].Nodes.Count == 4)
+						outputFile.WriteLine($"{10} ");
+					else outputFile.WriteLine($"{5} ");
+				}
+				outputFile.WriteLine("              </DataArray>");
+				outputFile.WriteLine("          </Cells>");
+				outputFile.WriteLine("      </Piece>");
+				outputFile.WriteLine("  </UnstructuredGrid>");
+				outputFile.WriteLine("</VTKFile>");
+			}
         }
         private static bool CompareResults(IVectorView solution)
         {
@@ -355,70 +449,70 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
         private static double[][] GetStrains(int elementsNo)
         {
             if (structModel == null)
-            {
-                double[][] strains = new double[elementsNo][];
-                for (int i = 0; i < elementsNo; i++)
-                {
-                    strains[i] = new double[6];
-                }
-                return strains;
-            }
-            else
-            {
-                IList<Element> elements = structModel.Item1.Elements;
-                double[][] strains = new double[elements.Count][];
-                if (Displacements == null)
-                {
-                    Displacements = new Dictionary<int, IVector>();
-                    Displacements.Add(0, Vector.CreateZero(structModel.Item1.GlobalDofOrdering.NumGlobalFreeDofs));
-                }
-                foreach (Element e in elements)
-                {
-                    double[] localVector = e.Subdomain.FreeDofOrdering.ExtractVectorElementFromSubdomain(e, Displacements[0]);
-                    var strainStresses = e.ElementType.CalculateStresses(e, localVector,
-                        new double[e.ElementType.GetElementDofTypes(e).SelectMany(x => x).Count()]);
-                    strains[e.ID] = new double[strainStresses.Item1.Length];
-                    Array.Copy(strainStresses.Item1, strains[e.ID], strains[e.ID].Length);
-                }
-                return strains;
-            }
+			{
+				double[][] strains = new double[elementsNo][];
+				for (int i = 0; i < elementsNo; i++)
+				{
+					strains[i] = new double[6];
+				}
+				return strains;
+			}
+			else
+			{
+				IList<Element> elements = structModel.Item1.Elements;
+				double[][] strains = new double[elements.Count][];
+				if (Displacements == null)
+				{
+					Displacements = new Dictionary<int, IVector>();
+					Displacements.Add(0, Vector.CreateZero(structModel.Item1.GlobalDofOrdering.NumGlobalFreeDofs));
+				}
+				foreach (Element e in elements)
+				{
+					double[] localVector = e.Subdomain.FreeDofOrdering.ExtractVectorElementFromSubdomain(e, Displacements[0]);
+					var strainStresses = e.ElementType.CalculateStresses(e, localVector,
+						new double[e.ElementType.GetElementDofTypes(e).SelectMany(x => x).Count()]);
+					strains[e.ID] = new double[strainStresses.Item1.Length];
+					Array.Copy(strainStresses.Item1, strains[e.ID], strains[e.ID].Length);
+				}
+				return strains;
+			}
         }
         private static Dictionary<int, double[]> StructuralSpaceTimeDerivatives(double[][] current, double[][] previous)
         {
             Dictionary<int, double[]> spaceTimeDerivatives = new Dictionary<int, double[]>();
-            for (int i = 0; i < current.Length; i++)
-            {
-                spaceTimeDerivatives[i] = new double[3];
-                for (int j = 0; j < 3; j++)
-                {
-                    spaceTimeDerivatives[i][j] = (current[i][j] - previous[i][j]) / timestep;
-                }
-                //var temp = current[i];
-                //double[] temp1 = new double[] { temp[0], temp[1], temp[2] };
-                //var previousTemp = previous[i];
-                //double[] temp2 = new double[] { previousTemp[0], previousTemp[1], previousTemp[2] };
-                //temp1.Zip(temp2, (x, y) => (x - y) / timestep);
-                //spaceTimeDerivatives.Add(i, temp1);
+			for (int i = 0; i < current.Length; i++)
+			{
+				spaceTimeDerivatives[i] = new double[3];
+				for (int j = 0; j < 3; j++)
+				{
+					spaceTimeDerivatives[i][j] = (current[i][j] - previous[i][j]) / timestep;
+				}
+				//var temp = current[i];
+				//double[] temp1 = new double[] { temp[0], temp[1], temp[2] };
+				//var previousTemp = previous[i];
+				//double[] temp2 = new double[] { previousTemp[0], previousTemp[1], previousTemp[2] };
+				//temp1.Zip(temp2, (x, y) => (x - y) / timestep);
+				//spaceTimeDerivatives.Add(i, temp1);
 
-            }
-            return spaceTimeDerivatives;
+			}
+			return spaceTimeDerivatives;
         }
         private static void PressureCoefficientsCalculation(Dictionary<int, double[]> u, Dictionary<int, double> l)
         {
             var modelReader = SvDModel.Item2;
-            foreach (Element element in modelReader.elementDomains[0])
-            {
+			foreach (Element element in modelReader.elementDomains[0])
+			{
 
-                l[element.ID] = dd0[element.ID] >= 0d ? lp[0] * SvDElement[element.ID] * Svin * dd0[element.ID] * 24d * 3600d : 0;
-                u[element.ID] = conv0[0];
-            }
-            foreach (Element element in modelReader.elementDomains[1])
-            {
-                l[element.ID] = lp[1] * Svin * SvDElement[element.ID] * 24d * 3600d;
-                u[element.ID] = conv0[1];
-            }
-            PressureL = l;
-            PressureU = u;
+				l[element.ID] = dd0[element.ID] >= 0d ? lp[0] * SvDElement[element.ID] * Svin * dd0[element.ID] * 24d * 3600d : 0;
+				u[element.ID] = conv0[0];
+			}
+			foreach (Element element in modelReader.elementDomains[1])
+			{
+				l[element.ID] = lp[1] * Svin * SvDElement[element.ID] * 24d * 3600d;
+				u[element.ID] = conv0[1];
+			}
+			PressureL = l;
+			PressureU = u;
         }
         private static void OxygenTransportCoefficientsCalculation(Dictionary<int, double[]> u, Dictionary<int, double> l)
         {
@@ -458,7 +552,8 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
                     phisElement[i] = 0.3;
                 }
             }
-            if (dd0 == null) dd0 = new double[SvDModel.Item2.elementDomains[0].Count];
+			//if (dd0 == null) dd0 = new double[SvDModel.Item2.elementDomains[0].Count];
+			if (dd0 == null) dd0 = new Dictionary<int, double>();
             foreach (var element in SvDModel.Item2.elementDomains[0])
             {
                 double sumX = 0;
@@ -998,8 +1093,8 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             if (SvDModel == null)
             {
                 Console.WriteLine("Creating SvD Model");
-                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
-                int[] modelDomains = new int[] { 0, 1 };
+                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", inputFile);
+				int[] modelDomains = new int[] { 0, 1 };
                 int[] modelBoundaries = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                 modelReader = new ComsolMeshReader5(filename, new double[] { 1, 1 }, SvDCoefficientsCalculation);
                 model = modelReader.CreateModelFromFile(modelDomains, modelBoundaries);
@@ -1056,8 +1151,8 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             if (oxModel == null)
             {
                 Console.WriteLine("Creating Oxygen Model");
-                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
-                int[] modelDomains = new int[] { 0, 1 };
+                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", inputFile);
+				int[] modelDomains = new int[] { 0, 1 };
                 int[] modelBoundaries = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                 modelReader = new ComsolMeshReader4(filename, new double[] { 1, 1 }, k, OxygenTransportCoefficientsCalculation);
                 model = modelReader.CreateModelFromFile(modelDomains, modelBoundaries);
@@ -1119,8 +1214,8 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             if (gModel == null)
             {
                 Console.WriteLine("Creating Growth Model");
-                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
-                int[] modelDomains = new int[] { 0 };
+				string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", inputFile);
+				int[] modelDomains = new int[] { 0 };
                 int[] modelBoundaries = new int[] { 0, 1, 2, 5 };
                 modelReader = new ComsolMeshReader3(filename, new double[] { 1 }, new double[] { 0 }, conv0, new double[] { 0 });
                 model = modelReader.CreateModelFromFile(modelDomains, modelBoundaries);
@@ -1150,7 +1245,7 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
                 foreach (Element element in modelReader.elementDomains[domainID])
                 {
                     var Grox = (loxc[domainID] * cvox * c_oxElement[element.ID]) / (cvox * c_oxElement[element.ID] + Koxc[domainID]);
-                    var fg = 24d * 3600d * Grox * tumcElement[element.ID] *lgElement[element.ID] / 3d;
+                    var fg = 24d * 3600d * Grox * tumcElement[element.ID] * lgElement[element.ID] / 3d;
 					var nodes = (IReadOnlyList<Node>)element.Nodes;
                     var domainLoad = new ConvectionDiffusionDomainLoad(materialODE, fg, ThermalDof.Temperature);
                     var bodyLoadElementFactory = new BodyLoadElementFactory(domainLoad, model);
@@ -1167,8 +1262,8 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             if (ctModel == null)
             {
                 Console.WriteLine("Creating Cancer Transport Model");
-                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
-                int[] modelDomains = new int[] { 0 };
+                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", inputFile);
+				int[] modelDomains = new int[] { 0 };
                 int[] modelBoundaries = new int[] { 0, 1, 2, 5 };
                 modelReader = new ComsolMeshReader4(filename, new double[] { 1 }, new double[] { k }, TumorCellsCoefficientsCalculation);
                 model = modelReader.CreateModelFromFile(modelDomains, modelBoundaries);
@@ -1189,8 +1284,8 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
                 {
                     var CTmaterial = new ConvectionDiffusionMaterial(1, k, CancerTransportU[element.ID], CancerTransportL[element.ID]);
                     var Grox = (loxc[domainID] * cvox * c_oxElement[element.ID]) / (cvox * c_oxElement[element.ID] + Koxc[domainID]);
-                    var RTumc = 24d * 3600d * Grox;
-                    var nodes = (IReadOnlyList<Node>)element.Nodes;
+                    var RTumc = 24d * 3600d * Grox * tumcElement[element.ID];
+					var nodes = (IReadOnlyList<Node>)element.Nodes;
                     var domainLoad = new ConvectionDiffusionDomainLoad(CTmaterial, RTumc, ThermalDof.Temperature);
                     var bodyLoadElementFactory = new BodyLoadElementFactory(domainLoad, model);
                     var bodyLoadElement = bodyLoadElementFactory.CreateElement(CellType.Tet4, nodes);
@@ -1206,8 +1301,8 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             if (prModel == null)
             {
                 Console.WriteLine("Creating Pressure Model");
-                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
-                int[] modelDomains = new int[] { 0, 1 };
+                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", inputFile);
+				int[] modelDomains = new int[] { 0, 1 };
                 int[] modelBoundaries = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                 modelReader = new ComsolMeshReader4(filename, new double[] { 1, 1 },
                     k, PressureCoefficientsCalculation);
@@ -1316,8 +1411,8 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             if (csModel == null)
             {
                 Console.WriteLine("Creating Cs Model");
-                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
-                int[] modelDomains = new int[] { 0, 1 };
+                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", inputFile);
+				int[] modelDomains = new int[] { 0, 1 };
                 int[] modelBoundaries = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                 modelReader = new ComsolMeshReader3(filename, new double[] { 1, 1 }, new double[] { 0, 0 }, conv0, new double[] { l13 * 24 * 3600, 0 });
                 model = modelReader.CreateModelFromFile(modelDomains, modelBoundaries);
@@ -1361,8 +1456,8 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             if (cvModel == null)
             {
                 Console.WriteLine("Creating Cv Model");
-                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
-                int[] modelDomains = new int[] { 0, 1 };
+                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", inputFile);
+				int[] modelDomains = new int[] { 0, 1 };
                 int[] modelBoundaries = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                 modelReader = new ComsolMeshReader5(filename, new double[] { 1, 1 }, CvCoefficientsCalculation);
                 model = modelReader.CreateModelFromFile(modelDomains, modelBoundaries);
@@ -1404,8 +1499,8 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             if (a1Model == null)
             {
                 Console.WriteLine("Creating Ang1 Model");
-                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
-                int[] modelDomains = new int[] { 0, 1 };
+                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", inputFile);
+				int[] modelDomains = new int[] { 0, 1 };
                 int[] modelBoundaries = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                 modelReader = new ComsolMeshReader3(filename, new double[] { 1, 1 }, new double[] { 0, 0 },
                     conv0, new double[] { m1 / 2d * 24d * 3600d, m1 / 2d * 24d * 3600d });
@@ -1456,8 +1551,8 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             if (a2Model == null)
             {
                 Console.WriteLine("Creating Ang2 Model");
-                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
-                int[] modelDomains = new int[] { 0, 1 };
+                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", inputFile);
+				int[] modelDomains = new int[] { 0, 1 };
                 int[] modelBoundaries = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                 modelReader = new ComsolMeshReader3(filename, new double[] { 1, 1 }, new double[] { 0, 0 },
                     conv0, new double[] { m2 * 24d * 3600d, m2 * 24d * 3600d });
@@ -1508,8 +1603,8 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             if (phisModel == null)
             {
                 Console.WriteLine("Creating phis Model");
-                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
-                int[] modelDomains = new int[] { 0 };
+                string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", inputFile);
+				int[] modelDomains = new int[] { 0 };
                 int[] modelBoundaries = new int[] { 0, 1, 2, 5 };
                 modelReader = new ComsolMeshReader4(filename, new double[] { 1 }, new double[] { 0 }, phisCoefficientsCalculation);
                 model = modelReader.CreateModelFromFile(modelDomains, modelBoundaries);
@@ -1548,8 +1643,8 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
                     var Grox = (loxc[domainID] * cvox * c_oxElement[element.ID]) / (cvox * c_oxElement[element.ID] + Koxc[domainID]);
                     var materialODE = new ConvectionDiffusionMaterial(1, 0, phisU[element.ID], phisL[element.ID]);
                     var fphis = 24 * 3600 * (Grox - (vElement[element.ID][0] * dphisElement[element.ID][0] +
-                        vElement[element.ID][1] * dphisElement[element.ID][1] + vElement[element.ID][2] * dphisElement[element.ID][2]));
-                    var nodes = (IReadOnlyList<Node>)element.Nodes;
+						vElement[element.ID][1] * dphisElement[element.ID][1] + vElement[element.ID][2] * dphisElement[element.ID][2]));
+					var nodes = (IReadOnlyList<Node>)element.Nodes;
                     var domainLoad = new ConvectionDiffusionDomainLoad(materialODE, fphis, ThermalDof.Temperature);
                     var bodyLoadElementFactory = new BodyLoadElementFactory(domainLoad, model);
                     var bodyLoadElement = bodyLoadElementFactory.CreateElement(CellType.Tet4, nodes);
@@ -1571,8 +1666,8 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
                 C2[i] = 0;
                 bulkModulus[i] = 2 * MuLame[i] * (1 + PoissonV[i]) / (3 * (1 - 2 * PoissonV[i]));
             }
-            string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", "mesh.mphtxt");
-            ComsolMeshReader1 modelReader;
+            string filename = Path.Combine(Directory.GetCurrentDirectory(), "InputFiles", "TumorGrowthModel", inputFile);
+			ComsolMeshReader1 modelReader;
             if (lambdag == null)
             {
                 modelReader = new ComsolMeshReader1(filename, C1, C2, bulkModulus, commonDynamicMaterialProperties);
@@ -1711,50 +1806,50 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
                     v0 = new double[models[i].Nodes.Count];
                 value0.Add(i, v0);
             }
-            foreach (Node node in models[0].Nodes)
-            {
-                value0[0][node.ID] = 1;
-            }
-            foreach (Node node in modelReaders[0].nodeDomains[0])
-            {
-                value0[0][node.ID] = 0.5;
-            }
-            foreach (Node node in models[1].Nodes)
-            {
-                value0[1][node.ID] = 0; /* 0.96733;*/
-            }
-            foreach (Node node in models[2].Nodes)
-            {
-                value0[2][node.ID] = 0.96;
-            }
-            foreach (Node node in models[3].Nodes)
-            {
-                value0[3][node.ID] = 1;
-            }
-            for (int i = 0; i < pressureModelFreeDOFs; i++)
-            {
-                value0[4][i] = 0; /* 0.96733;*/
-            }
-            foreach (Node node in models[5].Nodes)
-            {
-                value0[5][node.ID] = 0;
-            }
-            foreach (Node node in models[6].Nodes)
-            {
-                value0[6][node.ID] = 0;
-            }
-            foreach (Node node in models[7].Nodes)
-            {
-                value0[7][node.ID] = 0;
-            }
-            foreach (Node node in models[8].Nodes)
-            {
-                value0[8][node.ID] = 0;
-            }
-            foreach (Node node in models[9].Nodes)
-            {
-                value0[9][node.ID] = 0.3;
-            }
+			for (int i = 0; i < modelReaders[0].nodeDomains[0].Count; i++)
+			{
+				value0[0][i] = 0.5;
+			}
+			for (int i = 0; i < modelReaders[0].nodeDomains[0].Count; i++)
+			{
+				value0[0][i] = 1;
+			}
+			for (int i = 0; i < models[1].Nodes.Count; i++)
+			{
+				value0[1][i] = 0; /* 0.96733;*/
+			}
+			for (int i = 0; i < models[2].Nodes.Count; i++)
+			{
+				value0[2][i] = 0.96;
+			}
+			for (int i = 0; i < models[3].Nodes.Count; i++)
+			{
+				value0[3][i] = 1;
+			}
+			for (int i = 0; i < pressureModelFreeDOFs; i++)
+			{
+				value0[4][i] = 0; /* 0.96733;*/
+			}
+			for (int i = 0; i < models[5].Nodes.Count; i++)
+			{
+				value0[5][i] = 0;
+			}
+			for (int i = 0; i < models[6].Nodes.Count; i++)
+			{
+				value0[6][i] = 0;
+			}
+			for (int i = 0; i < models[7].Nodes.Count; i++)
+			{
+				value0[7][i] = 0;
+			}
+			for (int i = 0; i < models[8].Nodes.Count; i++)
+			{
+				value0[8][i] = 0;
+			}
+			for (int i = 0; i < models[9].Nodes.Count; i++)
+			{
+				value0[9][i] = 0.3;
+			}
 
             IConvectionDiffusionIntegrationProvider[] providers = new IConvectionDiffusionIntegrationProvider[models.Length];
             IChildAnalyzer[] childAnalyzers = new IChildAnalyzer[models.Length];
@@ -1762,9 +1857,9 @@ namespace Parallel_Tumor_Modelling_ConsoleApp
             for (int i = 0; i < models.Length; i++)
             {
                 initialValues[i] = Vector.CreateFromArray(value0[i]);
-                //var builder = new DenseMatrixSolver.Builder();
-                //builder.IsMatrixPositiveDefinite = false;
-                if (i == 0 || i == 1 || i == 2)
+				//var builder = new DenseMatrixSolver.Builder();
+				//builder.IsMatrixPositiveDefinite = false;
+				if (i == 0 || i == 1 || i == 2)
                 {
                     //asymBuilder.IsMatrixPositiveDefinite = false;
                     solvers[i] = asymBuilder.BuildSolver(models[i]);
